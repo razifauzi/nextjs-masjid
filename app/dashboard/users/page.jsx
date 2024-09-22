@@ -3,10 +3,8 @@ import styles from '../../ui/dashboard/users/users.module.css'
 import Image from "next/image";
 import Link from "next/link";
 import Pagination from '../../ui/dashboard/pagination/pagination';
-import { fetchUsers } from '../../lib/data';
 
 const UsersPage = async () => {
-    const { count, users } = await fetchUsers();
 
     return (
         <div className={styles.container}>
