@@ -1,29 +1,7 @@
-// app/dashboard/users/[id]/page.jsx
-'use client';
-
-import { useState } from 'react';
-import { updateUser } from '../../../lib/actions';
-import { fetchUsers } from '../../../lib/data';
 import styles from '../../../ui/dashboard/users/singleUser/singleUser.module.css';
 import Image from 'next/image';
 
-const SingleUserPage = async ({ params }) => {
-  const { id } = params;
-  const user = await fetchUsers(id);
-
-  const [formData, setFormData] = useState({
-    username: user.username,
-    address: user.address,
-    isAdmin: user.isAdmin ? "true" : "false",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+const SingleUserPage =  () => {
 
   return (
     <div className={styles.container}>
@@ -31,31 +9,47 @@ const SingleUserPage = async ({ params }) => {
         <div className={styles.imgContainer}>
           <Image src='/noavatar.png' alt='' fill />
         </div>
-        {formData.username}
+        Kamal 
       </div>
       <div className={styles.formContainer}>
-        <form action={updateUser} className={styles.form}>
-          <input type='hidden' name='id' value={id} />
+        <form action="" className={styles.form}>
+          <label>Full Name</label>
+          <input
+            type='text'
+            name='name'
+            placeholder='Kamal Abdillah'
+          />
           <label>Username</label>
           <input
             type='text'
             name='username'
-            value={formData.username}
-            onChange={handleChange}  // Handle changes to the input
+            placeholder='Kamal'
           />
-          <label>Address</label>
+          <label>Email</label>
+          <input
+            type='email'
+            name='email'
+            placeholder='Kamal@gmail.com'
+          />
+          <label>Password</label>
+          <input
+            type='password'
+            name='password'
+          />
+          <label>Description</label>
           <textarea
-            name='address'
-            value={formData.address}
-            onChange={handleChange}  // Handle changes to the textarea
+            type='text'
+            name='description'
+            placeholder='New York'
           />
-          <label>Is Admin?</label>
-          <select name='isAdmin' value={formData.isAdmin} onChange={handleChange}>
-            <option value='true'>Yes</option>
-            <option value='false'>No</option>
+          <label>Role</label>
+          <select name='isAdmin' id='isAdmin'>
+            <option value='1'>Admin</option>
+            <option value='0'>User</option>
           </select>
+          
           <button>Update</button>
-        </form>
+          </form>
       </div>
     </div>
   );
