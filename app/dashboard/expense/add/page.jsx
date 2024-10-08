@@ -2,15 +2,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'; 
-import styles from '../../../ui/dashboard/users/addUser/addUser.module.css';
+import styles from '../../../ui/dashboard/products/addProduct/addProduct.module.css'
 
-const AddUserPage = () => {
+const AddExpensePage = () => {
     const router = useRouter();
     const [formData, setFormData] = useState({
         name: '',
-        email: '',
-        username: '',
-        role: '',
+        frequency: '',
+        description: '',
     });
 
     // Handle input changes
@@ -27,7 +26,7 @@ const AddUserPage = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:8080/api/user', {
+            const response = await fetch('http://localhost:8080/api/expenses', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,20 +35,20 @@ const AddUserPage = () => {
             });
 
             if (response.ok) {
-                alert('User added successfully!');
-                router.push('/dashboard/users'); // Redirect to user list after adding
+                alert('Expenses added successfully!');
+                router.push('/dashboard/expense'); // Redirect to income list after adding
             } else {
-                alert('Failed to add user.');
+                alert('Failed to add expenses.');
             }
         } catch (error) {
-            console.error('Error adding user:', error);
+            console.error('Error adding expenses:', error);
             alert('An error occurred.');
         }
     };
 
-    return (
+    return(
         <div className={styles.container}>
-            <form action='' className={styles.form} onSubmit={handleSubmit}>
+            <form action="" className={styles.form} onSubmit={handleSubmit}>
             <input
                     type="text"
                     placeholder='name'
@@ -59,32 +58,25 @@ const AddUserPage = () => {
                     required
                 />
                 <input
-                    type="email"
-                    placeholder='email'
-                    name='email'
-                    value={formData.email}
+                    type="number"
+                    placeholder='frequency'
+                    name='frequency'
+                    value={formData.frequency}
                     onChange={handleChange}
                 />
-                <input
-                    type="text"
-                    name="username"
-                    placeholder='username'
-                    value={formData.username}
+                <textarea
+                    name="description"
+                    id="description"
+                    cols={30}
+                    rows={10}
+                    placeholder='Description'
+                    value={formData.description}
                     onChange={handleChange}
                 />
-                <select 
-                    name="role"
-                    id="role"
-                    defaultValue="0"
-                    value={formData.role}
-                    onChange={handleChange}>
-                    <option value="0">Client</option>
-                    <option value="1">Admin</option>
-                </select>
                 <button type='submit'>Submit</button>
             </form>
         </div>
-    );
+    )
 }
 
-export default AddUserPage;
+export default AddExpensePage

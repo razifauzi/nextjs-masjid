@@ -1,40 +1,41 @@
 "use client";
-import styles from '../../ui/dashboard/users/users.module.css'
+// import Search from "../../ui/dashboard/search/search";
+import styles from '../../ui/dashboard/products/products.module.css'
 import { useState, useEffect } from 'react';
+import Image from "next/image";
 import Link from "next/link";
 import Pagination from '../../ui/dashboard/pagination/pagination';
 
-const UsersPage =  () => {
-    const [users, setUsers] = useState([]);
+const ExpensePage = () => {
+    const [incomes, setIncomes] = useState([]);
 
-    // Fetch all users records from the backend
+    // Fetch all income records from the backend
     useEffect(() => {
-      fetch('http://localhost:8080/api/user') // Assuming this is your backend API
+      fetch('http://localhost:8080/api/expenses') // Assuming this is your backend API
         .then((response) => response.json())
-        .then((data) => setUsers(data))
-        .catch((error) => console.error('Error fetching users:', error));
+        .then((data) => setIncomes(data))
+        .catch((error) => console.error('Error fetching expenses:', error));
     }, []);
 
     // Handle delete function
     const handleDelete = async (id) => {
         if (confirm('Are you sure you want to delete this record?')) {
         try {
-            const response = await fetch(`http://localhost:8080/api/user/${id}`, {
+            const response = await fetch(`http://localhost:8080/api/expenses/${id}`, {
             method: 'DELETE',
             });
             if (response.ok) {
-            alert('User deleted successfully!');
-            // Remove the deleted user from the state
-            setUsers(users.filter(user => user.id !== id));
+            alert('Expenses deleted successfully!');
+            // Remove the deleted income from the state
+            setIncomes(incomes.filter(income => income.id !== id));
             } else {
-            alert('Failed to delete user.');
+            alert('Failed to delete expenses.');
             }
         } catch (error) {
-            console.error('Error deleting user:', error);
+            console.error('Error deleting expenses:', error);
         }
         }
     };
-
     // Manually format the created_at date to dd MMM yyyy
     //const date = new Date(user.created_at);
     //const formattedDate = `${String(date.getDate()).padStart(2, '0')} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
@@ -42,7 +43,7 @@ const UsersPage =  () => {
         <div className={styles.container}>
             <div className={styles.top}>
                 {/* <Search placeholder='Search for a user..'/> */}
-                <Link href='/dashboard/users/add'>
+                <Link href='/dashboard/expense/add'>
                     <button className={styles.addButton}>Add New</button>
                 </Link>
             </div>
@@ -50,15 +51,14 @@ const UsersPage =  () => {
                 <thead>
                     <tr>
                         <td>Name</td>
-                        <td>Email</td>
-                        <td>Role</td>
-                        <td>Username</td>
                         <td>Created Date</td>
+                        <td>Frequency</td>
+                        <td>Description</td>
                     </tr>
                 </thead>
                 <tbody>
-                {users.map((user) => (
-                     <tr key={user.id}>
+                {incomes.map((income) => (
+                     <tr key={income.id}>
                         <td>
                             <div className={styles.product}>
                                 {/* <Image 
@@ -68,13 +68,11 @@ const UsersPage =  () => {
                                     height={40}
                                     className={styles.productImage}
                                 /> */}
-                                {user.name}
+                                {income.name}
                             </div>
                         </td>
-                        <td>{user.email}</td>
-                        <td>{user.role === 1 ? 'Admin' : 'User'}</td>
-                        <td>{user.username}</td>
-                        <td>{new Date(user.createdts).toLocaleDateString('en-GB', {
+                        <td>
+                            {new Date(income.createdts).toLocaleDateString('en-GB', {
                             day: '2-digit',
                             month: 'short',
                             year: '2-digit',
@@ -82,19 +80,22 @@ const UsersPage =  () => {
                             minute: '2-digit',
                             second: '2-digit',
                             hour12: true // This will ensure the time is in 12-hour format
-                            })}</td>
+                            })}
+                        </td>
+                        <td>{income.frequency}</td>
+                        <td>{income.description}</td>
                         <td>
                             <div className={styles.buttons}>
-                            <Link href={`/dashboard/users/${user.id}`}>
-                            {/* <Link href={`/dashboard/users/${user.id}`}></Link> */}
+                            <Link href={`/dashboard/expense/${income.id}`}>
                                 <button className={`${styles.button} ${styles.view}`}>View</button>
                             </Link>
-                                <button className={`${styles.button} ${styles.delete}`}
-                                onClick={() => handleDelete(user.id)}>Delete</button>
+                                <button 
+                                className={`${styles.button} ${styles.delete}`}
+                                onClick={() => handleDelete(income.id)} >Delete</button>
                             </div>
                         </td>
                     </tr>
-                    ))}
+                     ))}
                 </tbody>
             </table>
             <Pagination/>
@@ -103,4 +104,5 @@ const UsersPage =  () => {
 
 }
 
-export default UsersPage;
+export default ExpensePage
+;

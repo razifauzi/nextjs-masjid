@@ -35,6 +35,11 @@ const menuItems = [
         icon: <MdShoppingBag />,
       },
       {
+        title: "Expense",
+        path: "/dashboard/expense",
+        icon: <MdShoppingBag />,
+      },
+      {
         title: "Transactions",
         path: "/dashboard/transactions",
         icon: <MdAttachMoney />,
