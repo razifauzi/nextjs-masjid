@@ -10,6 +10,8 @@ const AddIncomePage = () => {
         name: '',
         frequency: '',
         description: '',
+        amount: '', 
+        date: '', 
     });
 
     // Handle input changes
@@ -63,6 +65,22 @@ const AddIncomePage = () => {
                     name='frequency'
                     value={formData.frequency}
                     onChange={handleChange}
+                />
+                <input
+                    type="number"
+                    placeholder='Amount'
+                    name='amount'
+                    value={formData.amount}
+                    onChange={handleChange}
+                    required
+                    step="0.01" // Allow decimal values for monetary amount
+                />
+                <input
+                    type="date"
+                    name='date'
+                    value={formData.date}
+                    onChange={handleChange}
+                    required // Make date selection required
                 />
                 <textarea
                     name="description"
