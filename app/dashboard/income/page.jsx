@@ -36,6 +36,14 @@ const IncomePage = () => {
         }
         }
     };
+
+    // Format amount as currency
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('ms-MY', {
+            style: 'currency',
+            currency: 'MYR',
+        }).format(amount);
+    };
     // Manually format the created_at date to dd MMM yyyy
     //const date = new Date(user.created_at);
     //const formattedDate = `${String(date.getDate()).padStart(2, '0')} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
@@ -53,6 +61,7 @@ const IncomePage = () => {
                         <td>Name</td>
                         <td>Created Date</td>
                         <td>Frequency</td>
+                        <td>Amount</td>
                         <td>Description</td>
                     </tr>
                 </thead>
@@ -83,6 +92,7 @@ const IncomePage = () => {
                             })}
                         </td>
                         <td>{income.frequency}</td>
+                        <td>{formatCurrency(income.amount)}</td>
                         <td>{income.description}</td>
                         <td>
                             <div className={styles.buttons}>

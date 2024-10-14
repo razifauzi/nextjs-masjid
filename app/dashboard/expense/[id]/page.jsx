@@ -14,6 +14,8 @@ const SingleExpensePage = ({ params }) => {
     name: '',
     description: '',
     frequency: '',
+    amount: '', 
+    date: '', 
   });
 
 
@@ -28,6 +30,8 @@ const SingleExpensePage = ({ params }) => {
             name: data.name,
             description: data.description,
             frequency: data.frequency,
+            amount: data.amount, 
+            date: data.date, 
           });
         })
         .catch((error) => console.error('Error fetching expenses:', error));
@@ -86,17 +90,25 @@ const SingleExpensePage = ({ params }) => {
             value={formData.name}
             onChange={handleChange} // Enable editing
           />
-          <label>Description</label>
-          <textarea
-            name='description'
-            value={formData.description}
-            onChange={handleChange} // Enable editing
-          />
+
           <label>Frequency</label>
           <input
             type='number'
             name='frequency'
             value={formData.frequency}
+            onChange={handleChange} // Enable editing
+          />
+          <label>Amount</label>
+          <input
+            type='number'
+            name='amount'
+            value={formData.amount}
+            onChange={handleChange} // Enable editing
+          />
+          <label>Description</label>
+          <textarea
+            name='description'
+            value={formData.description}
             onChange={handleChange} // Enable editing
           />
           <button type='submit'>Update</button>
