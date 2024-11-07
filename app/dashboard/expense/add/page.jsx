@@ -82,6 +82,24 @@ const AddExpensePage = () => {
                     onChange={handleChange}
                     required // Make date selection required
                 />
+                <select
+                    name="program"
+                    value={formData.program}
+                    onChange={handleChange}
+                    required
+                >
+                    <option value="" disabled>Select Program</option>
+                    <option value="1">Emolumen</option>
+                    <option value="2">Elaun & Imbuhan Tetap</option>
+                    <option value="3">Sumbangan Berkanun Untuk Kakitangan</option>
+                    <option value="4">Elaun Lebih Masa</option>
+                    <option value="5">Elaun Kursus</option>
+                    <option value="6">Utiliti</option>
+                    <option value="7">Sewaan</option>
+                    <option value="8">Belanja Penganjuran Program</option>
+                    <option value="9">Belian Bekalan Bahan Mentah</option>
+                    <option value="10">Belian Bahan Makan & Minuman</option>
+                </select>
                 <textarea
                     name="description"
                     id="description"

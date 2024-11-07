@@ -82,6 +82,22 @@ const AddIncomePage = () => {
                     onChange={handleChange}
                     required // Make date selection required
                 />
+                <select
+                    name="program"
+                    value={formData.program}
+                    onChange={handleChange}
+                    required
+                >
+                    <option value="" disabled>Select Program</option>
+                    <option value="1">Tabung Masjid</option>
+                    <option value="2">Sewaan</option>
+                    <option value="3">Yuran @ Kutipan Khas @ Sumbangan Khas</option>
+                    <option value="4">Wakaf @ Peruntukan Khas</option>
+                    <option value="5">Pulangan Semula Pinjaman</option>
+                    <option value="6">Pengurusan Jenazah</option>
+                    <option value="7">Keuntungan Bank</option>
+                    <option value="8">Koperasi / Perniagaan</option>
+                </select>
                 <textarea
                     name="description"
                     id="description"
