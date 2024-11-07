@@ -1,13 +1,16 @@
 "use client";
 // import Search from "../../ui/dashboard/search/search";
 import styles from '../../ui/dashboard/products/products.module.css'
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useRef } from 'react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import Image from "next/image";
 import Link from "next/link";
 import Pagination from '../../ui/dashboard/pagination/pagination';
 
 const IncomePage = () => {
     const [incomes, setIncomes] = useState([]);
+    const printRef = useRef();
 
     // Fetch all income records from the backend
     useEffect(() => {
@@ -44,6 +47,27 @@ const IncomePage = () => {
             currency: 'MYR',
         }).format(amount);
     };
+
+    // Function to download the PDF report
+    const downloadPDF = () => {
+        fetch("http://localhost:8080/api/income/export/pdf", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/pdf",
+            },
+        })
+        .then((response) => response.blob())
+        .then((blob) => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "income_report.pdf";
+            a.click();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch((error) => console.error("Error downloading PDF:", error));
+    };
+
     // Manually format the created_at date to dd MMM yyyy
     //const date = new Date(user.created_at);
     //const formattedDate = `${String(date.getDate()).padStart(2, '0')} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
@@ -54,7 +78,9 @@ const IncomePage = () => {
                 <Link href='/dashboard/income/add'>
                     <button className={styles.addButton}>Add New</button>
                 </Link>
+                <button onClick={downloadPDF} className={styles.addButton}>Export to PDF</button>
             </div>
+            <div ref={printRef}>
             <table className={styles.table}>
                 <thead>
                     <tr>
@@ -62,6 +88,7 @@ const IncomePage = () => {
                         <td>Created Date</td>
                         <td>Frequency</td>
                         <td>Amount</td>
+                        <td>Date</td>
                         <td>Description</td>
                     </tr>
                 </thead>
@@ -93,6 +120,13 @@ const IncomePage = () => {
                         </td>
                         <td>{income.frequency}</td>
                         <td>{formatCurrency(income.amount)}</td>
+                        <td>
+                            {new Date(income.date).toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: 'short',
+                            year: '2-digit',
+                            })}
+                        </td>
                         <td>{income.description}</td>
                         <td>
                             <div className={styles.buttons}>
@@ -108,6 +142,7 @@ const IncomePage = () => {
                      ))}
                 </tbody>
             </table>
+            </div>
             <Pagination/>
         </div>
     )
